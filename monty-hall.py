@@ -39,7 +39,8 @@ def monty_hall(num_doors, switch_door):
         return 0
 
 
-# Monty Hall problem host opens a random door
+# Monty Hall with host opening a random door
+# FIXME: This function is not working correctly
 def monty_hall_variant(num_doors, switch_door):
     doors = setup_doors(num_doors)
     
