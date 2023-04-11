@@ -40,7 +40,6 @@ def monty_hall(num_doors, switch_door):
 
 
 # Monty Hall with host opening a random door
-# FIXME: This function is not working correctly
 def monty_hall_variant(num_doors, switch_door):
     doors = setup_doors(num_doors)
     
@@ -84,13 +83,11 @@ def run_monte_carlo(num_doors, num_iterations, switch_door, variant):
     win_prob = float(total_wins) / num_iterations
     return win_prob
 
-# run a standard Monty Hall problem
-# win_prob_switch = run_monte_carlo(3, 100, True, False)
-# print(win_prob_switch)
 
-# Test the functions with different parameters
 num_iterations = 1000
 
+# standard Monty Hall  with switch and stick policy
+print('=================Standard Monty Hall=================')
 for num_doors in [3, 6, 9, 20, 100]:
     # Run simulations for the original Monty Hall problem
     
@@ -106,4 +103,22 @@ for num_doors in [3, 6, 9, 20, 100]:
     print("Number of doors:", num_doors)
     print("Switch door:", False)
     win_prob_stick = run_monte_carlo(num_doors, num_iterations, False, False)
+    print("Win probability with stick policy: {:.4f}".format(win_prob_stick))
+
+print('\n=================Variant=================')
+for num_doors in [3, 6, 9, 20, 100]:
+    # Run simulations for the variant Monty Hall
+    
+    # With switching policy
+    print('+-----------------Switching----------------+')
+    print("Number of doors:", num_doors)
+    print("Switch door:", True)
+    win_prob_switch = run_monte_carlo(num_doors, num_iterations, True, True)
+    print("Win probability with switch policy: {:.4f}".format(win_prob_switch))
+    
+    # With sticking policy
+    print('+-----------------Sticking----------------+')
+    print("Number of doors:", num_doors)
+    print("Switch door:", False)
+    win_prob_stick = run_monte_carlo(num_doors, num_iterations, False, True)
     print("Win probability with stick policy: {:.4f}".format(win_prob_stick))
