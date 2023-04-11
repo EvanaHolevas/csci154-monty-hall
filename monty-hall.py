@@ -40,6 +40,7 @@ def monty_hall(num_doors, switch_door):
 
 
 # Monty Hall with host opening a random door
+# FIXME: could open car - game ends
 def monty_hall_variant(num_doors, switch_door):
     doors = setup_doors(num_doors)
     
@@ -50,22 +51,27 @@ def monty_hall_variant(num_doors, switch_door):
     revealed_door = None
     while True:
         revealed_door = random.randint(0, num_doors - 1)
-        if revealed_door != initial_selection and doors[revealed_door] == 'goat':
+        if revealed_door != initial_selection:
             break
-    
-    # Player either sticks with initial door or switches
-    final_selection = initial_selection
-    if switch_door:
-        for i in range(num_doors):
-            if i != initial_selection and i != revealed_door:
-                final_selection = i
-                break
-    
-    # Determine if player won or not
-    if doors[final_selection] == 'car':
-        return 1
+    result = None
+    if doors[revealed_door] == 'car':
+        result = 0
     else:
-        return 0
+        # Player either sticks with initial door or switches
+        final_selection = initial_selection
+        
+        if switch_door:
+            for i in range(num_doors):
+                if i != initial_selection and i != revealed_door:
+                    final_selection = i
+                    break
+        
+        # Determine if player won or not
+        if doors[final_selection] == 'car':
+            result = 1
+        else:
+            result = 0
+    return result
 
 
 # Define a function to run Monte Carlo simulations and calculate the probability of winning
