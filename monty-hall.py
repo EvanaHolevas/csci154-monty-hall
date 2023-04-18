@@ -113,6 +113,8 @@ num_iterations = 1000
 
 # standard Monty Hall  with switch and stick policy
 print('=================Standard Monty Hall=================')
+switch_probs = []
+stick_probs = []
 for num_doors in [3, 6, 9, 20, 100]:
     # Run simulations for the original Monty Hall problem
     
@@ -121,6 +123,7 @@ for num_doors in [3, 6, 9, 20, 100]:
     print("Number of doors:", num_doors)
     print("Switch door:", True)
     win_prob_switch = run_monte_carlo(num_doors, num_iterations, True, False)
+    switch_probs.append(win_prob_switch)
     print("Win probability with switch policy: {:.4f}".format(win_prob_switch))
     
     # With sticking policy
@@ -128,9 +131,12 @@ for num_doors in [3, 6, 9, 20, 100]:
     print("Number of doors:", num_doors)
     print("Switch door:", False)
     win_prob_stick = run_monte_carlo(num_doors, num_iterations, False, False)
+    stick_probs.append(win_prob_stick)
     print("Win probability with stick policy: {:.4f}".format(win_prob_stick))
 
 print('\n=================Variant=================')
+variant_switch_probs = []
+variant_stick_probs = []
 for num_doors in [3, 6, 9, 20, 100]:
     # Run simulations for the variant Monty Hall
     
@@ -139,6 +145,7 @@ for num_doors in [3, 6, 9, 20, 100]:
     print("Number of doors:", num_doors)
     print("Switch door:", True)
     win_prob_switch = run_monte_carlo(num_doors, num_iterations, True, True)
+    variant_switch_probs.append(win_prob_switch)
     print("Win probability with switch policy: {:.4f}".format(win_prob_switch))
     
     # With sticking policy
@@ -146,14 +153,64 @@ for num_doors in [3, 6, 9, 20, 100]:
     print("Number of doors:", num_doors)
     print("Switch door:", False)
     win_prob_stick = run_monte_carlo(num_doors, num_iterations, False, True)
+    variant_stick_probs.append(win_prob_stick)
     print("Win probability with stick policy: {:.4f}".format(win_prob_stick))
     
-# Plot the results
-plt.figure(figsize=(10,6))
-plt.plot(num_doors_list, switch_probs, label='Switching')
-plt.plot(num_doors_list, stick_probs, label='Sticking')
-plt.title('Win probabilities for {} iterations'.format(num_iterations))
-plt.xlabel('Number of doors')
-plt.ylabel('Win probability')
-plt.legend()
-plt.show()
+import matplotlib.pyplot as plt
+
+num_doors_list = [3, 6, 9, 20, 100]
+
+def plot_monte_carlo_results(num_doors_list, switch_probs, stick_probs, variant_switch_probs, variant_stick_probs):
+    plt.plot(num_doors_list, switch_probs, label='Switching (Original)')
+    plt.plot(num_doors_list, stick_probs, label='Sticking (Original)')
+    plt.plot(num_doors_list, variant_switch_probs, label='Switching (Variant)')
+    plt.plot(num_doors_list, variant_stick_probs, label='Sticking (Variant)')
+    plt.xlabel('Number of doors')
+    plt.ylabel('Probability of winning')
+    plt.title('Monty Hall Problem')
+    plt.legend()
+    plt.show()
+
+# plot_monte_carlo_results(num_doors_list, switch_probs, stick_probs, variant_switch_probs, variant_stick_probs)
+
+import numpy as np
+
+def plot_results(num_doors_list, switch_probs, stick_probs, variant):
+    # Set width of bar
+    bar_width = 0.35
+    
+    # Set x-axis values
+    x = np.arange(len(num_doors_list))
+    
+    # Create figure and axis objects
+    fig, ax = plt.subplots()
+    
+    # Plot the data
+    rects1 = ax.bar(x - bar_width/2, switch_probs, bar_width, label='Switch', color=(0.2, 0.4, 0.6, 1))
+    rects2 = ax.bar(x + bar_width/2, stick_probs, bar_width, label='Stick', color=(0.8, 0.4, 0.0, 1))
+    
+    # Add some text for labels, title and custom x-axis tick labels, etc.
+    ax.set_ylabel('Win Probability')
+    ax.set_xlabel('Number of Doors')
+    ax.set_title('Monty Hall Simulation Results ({})'.format('Variant' if variant else 'Original'))
+    ax.set_xticks(x)
+    ax.set_xticklabels(num_doors_list)
+    ax.legend()
+    
+    # Add labels on top of the bars
+    def autolabel(rects):
+        for rect in rects:
+            height = rect.get_height()
+            ax.annotate('{:.3f}'.format(height),
+                        xy=(rect.get_x() + rect.get_width() / 2, height),
+                        xytext=(0, 3),  # 3 points vertical offset
+                        textcoords="offset points",
+                        ha='center', va='bottom')
+    
+    autolabel(rects1)
+    autolabel(rects2)
+    
+    # Show the plot
+    plt.show()
+    
+plot_results(num_doors_list, variant_switch_probs, variant_stick_probs, True)
