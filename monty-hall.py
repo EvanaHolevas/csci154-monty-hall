@@ -1,4 +1,6 @@
 import random
+import matplotlib.pyplot as plt
+
 random.seed(42)
 
 def setup_doors(num_doors):
@@ -40,7 +42,6 @@ def monty_hall(num_doors, switch_door):
 
 
 # Monty Hall with host opening a random door
-# FIXME: could open car - game ends
 def monty_hall_variant(num_doors, switch_door):
     doors = setup_doors(num_doors)
     
@@ -89,6 +90,24 @@ def run_monte_carlo(num_doors, num_iterations, switch_door, variant):
     win_prob = float(total_wins) / num_iterations
     return win_prob
 
+# Define a function to plot the win probabilities for a range of numbers of doors
+def plot_win_probabilities(num_doors_list, num_iterations, variant):
+    switch_probs = []
+    stick_probs = []
+    for num_doors in num_doors_list:
+        # Run simulations for the specified number of doors
+            print('Running simulations for {} doors with switching policy...'.format(num_doors))
+            
+    # With switching policy
+    switch_prob = run_monte_carlo(num_doors, num_iterations, True, variant)
+    switch_probs.append(switch_prob)
+    
+    # With sticking policy
+    print('Running simulations for {} doors with sticking policy...'.format(num_doors))
+    stick_prob = run_monte_carlo(num_doors, num_iterations, False, variant)
+    stick_probs.append(stick_prob)
+
+
 
 num_iterations = 1000
 
@@ -128,3 +147,13 @@ for num_doors in [3, 6, 9, 20, 100]:
     print("Switch door:", False)
     win_prob_stick = run_monte_carlo(num_doors, num_iterations, False, True)
     print("Win probability with stick policy: {:.4f}".format(win_prob_stick))
+    
+# Plot the results
+plt.figure(figsize=(10,6))
+plt.plot(num_doors_list, switch_probs, label='Switching')
+plt.plot(num_doors_list, stick_probs, label='Sticking')
+plt.title('Win probabilities for {} iterations'.format(num_iterations))
+plt.xlabel('Number of doors')
+plt.ylabel('Win probability')
+plt.legend()
+plt.show()
