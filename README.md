@@ -9,10 +9,12 @@ The simulation evaluates the performance of both the "stick" and "switch" strate
 ## Result Diagrams
 Host only opens a single door during each iteration of the program.
 
-Original Monty Hall
+### Original Monty Hall
+
 
 ![og_win_probs](results_diagrams/og_win_probs.png)
 
-Variant Monty Hall
+
+### Variant Monty Hall
 
 ![variant_win_probs](results_diagrams/variant_win_probs.png)
