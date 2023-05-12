@@ -11,8 +11,8 @@ Host only opens a single door during each iteration of the program.
 
 Original Monty Hall
 
-![og_win_probs](https://github.com/EvanaHolevas/csci154-monty-hall/assets/70241021/28db29fa-dbfa-4386-b58c-b95c53b153c4)
+![og_win_probs](results_diagrams/og_win_probs.png)
 
 Variant Monty Hall
 
-![variant_win_probs](https://github.com/EvanaHolevas/csci154-monty-hall/assets/70241021/8291d2a2-79ed-4e2a-a5a0-ff88db48da93)
+![variant_win_probs](results_diagrams/variant_win_probs.png)
